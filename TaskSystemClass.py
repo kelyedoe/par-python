@@ -72,5 +72,12 @@ class TaskSystem:
 
 
     # * La fonction verifier_entrees permet de faire des analyses sur le systeme de tcahes task && contraintes
-    
+    def verifier_entrees(self,tasks, dependencies):
+    # Vérifier l'unicité des noms des taches dans le systeme
+        tasks_names = [task.name for task in tasks]
+        if len(set(tasks_names)) != len(tasks_names):
+            raise ValueError("Les noms des taches doivent etre uniques")
+        else:
+            print("Les taches sont uniques")
+
 

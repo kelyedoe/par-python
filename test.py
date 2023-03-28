@@ -47,7 +47,8 @@ s1 = TaskSystem([t1, t2, tSomme], dependencies)
 #print(s1.getDependencies("somme"))
 
 #s1.runSeq()
-print(s1.run())
+#print(s1.run())
+s1.verifier_entrees([t1, t2, tSomme], dependencies)
 
 
 
