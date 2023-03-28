@@ -80,4 +80,23 @@ class TaskSystem:
         else:
             print("Les taches sont uniques")
 
+    #Vérifier si toutes les taches citées dans les contraintes sont bien existentes
+        tasks_names_dep = set(dependencies.keys()).union(set([task for dep in dependencies.values() for task in dep]))
+        if not tasks_names_dep.issubset(set(tasks_names)):
+            raise ValueError("Le dictionnaire de précédence contient des nom de taches inexistentes")
+        else:
+            print("Toutes les noms des taches existent")
 
+        # Vérification si toutes les tâches ont une précédente
+        for task in tasks:
+            if task.name not in dependencies and not task.precedentes:
+                raise ValueError(f"La tâche {task.name} n'a pas de précédente")
+
+    # Vérifier le déterminisme du système de taches
+        tasks_names_orphelines = set(tasks_names).difference(tasks_names_dep)
+        if len(tasks_names_orphelines) > 1:
+            raise ValueError("Le système de tâches est indéterminé")
+        else:
+            print("Le sytème des taches est déterminé")
+
+    
