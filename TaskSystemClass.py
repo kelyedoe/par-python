@@ -1,4 +1,6 @@
 from threading import Thread
+import networkx as nx
+import matplotlib.pyplot as plt
 
 
 class TaskSystem:
@@ -99,4 +101,17 @@ class TaskSystem:
         else:
             print("Le sytème des taches est déterminé")
 
+
+    def run(self):
+        G = nx.DiGraph()
+        G.add_nodes_from(self.tasks)
+        
+        for task in self.tasks:
+            dependencies = self.getDependencies(task)
+            for dependency in dependencies:
+                G.add_edge(dependency, task)
+        
+        pos = nx.spring_layout(G)
+        nx.draw(G, pos, with_labels=True, font_weight='bold')
+        plt.show()
     
