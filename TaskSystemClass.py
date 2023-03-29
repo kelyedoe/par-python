@@ -115,4 +115,42 @@ class TaskSystem:
         pos = nx.spring_layout(G)
         nx.draw(G, pos, with_labels=True, font_weight='bold')
         plt.show()
+
+    # Une fonction detRun() pour le determinisme
+    def detRun(self):
+        ready = set(self.tasks)
+        running = set()
+        finished = set()
+        while ready or running:
+            for task in running.copy():
+                if task.isFinished():
+                    finished.add(task)
+                    running.remove(task)
+                    for t in ready.copy():
+                        if task in self.getDependencies(t.name):
+                            self.tasks.remove(t)
+                            ready.remove(t)
+                            running.add(t)
+            for task in ready.copy():
+                if not set(self.getDependencies(task.name)) - finished:
+                    ready.remove(task)
+                    running.add(task)
+            if running and not ready:
+                for task in running:
+                    task.run()
+                    
+        # Randomized test of determinism
+        result1 = {}
+        for task in self.tasks:
+            result1[task.name] = task.result
+        result2 = {}
+        for task in self.tasks:
+            task.reset()
+            result2[task.name] = task.runRnd()
+        if result1 != result2:
+            print("The system is not deterministic")
+
+    def detTestRnd(self, n=10):
+        for i in range(n):
+            self.detRun()
     

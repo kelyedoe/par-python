@@ -50,7 +50,8 @@ s1 = TaskSystem([t1, t2, tSomme], dependencies)
 #print(s1.run())
 s1.verifier_entrees([t1, t2, tSomme], dependencies)
 
-s1.draw()
+#s1.draw()
+s1.detTestRnd()
 
 
 
