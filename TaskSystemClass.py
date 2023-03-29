@@ -9,7 +9,7 @@ class TaskSystem:
         self.tasks = tasks
         self.dependencies = dependencies
         self.completed_tasks = []
-    
+        
     def getDependencies(self, task_name):
         return self.dependencies[task_name]
     
@@ -29,6 +29,7 @@ class TaskSystem:
         for task in self.tasks:
             if task.name == task_name:
                 return task
+            
             
     def run(self):
         # Faire un tri topologique sur les taches
@@ -102,14 +103,14 @@ class TaskSystem:
             print("Le sytème des taches est déterminé")
 
 
-    def run(self):
+    def draw(self):
         G = nx.DiGraph()
         G.add_nodes_from(self.tasks)
         
         for task in self.tasks:
-            dependencies = self.getDependencies(task)
+            dependencies = self.getDependencies(task.name)
             for dependency in dependencies:
-                G.add_edge(dependency, task)
+                G.add_edge(dependency, task.name)
         
         pos = nx.spring_layout(G)
         nx.draw(G, pos, with_labels=True, font_weight='bold')
