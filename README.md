@@ -1,8 +1,7 @@
  ![Projet Système](/images/LibImage.png)
 
  
-# Projet: Librairie python de parallélisation maximale des tâches. 
-
+# Projet: Librairie python de parallélisation maximale des tâches.
 ## Description du projet:
 Développer une libraire en Python pour automatiser la parallélisation maximale de systèmes de tâches. L’utilisateur doit pouvoir spécifier des tâches quelconques, interagissant
 à travers un ensemble arbitraire de variables, et pouvoir :
@@ -70,5 +69,9 @@ L'éxécution et les test de la librarie se font dans le fichier **test.py**.
 7. **Exécution de la fonction de draw()**
 ![Projet Système](/images/Figure_1.png)
 
+8. **Test Randomisé de déterminisme**
 
+9. **Cout du parallélisme**
+
+10. Bonus
 # Crédits:
