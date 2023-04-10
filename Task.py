@@ -1,4 +1,4 @@
-# La classe Task permettant la création des TACHES
+# La classe Task permet la création des tâches T1 T2 T3
 class Task:
     name =""
     reads = []
