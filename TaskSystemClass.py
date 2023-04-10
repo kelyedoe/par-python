@@ -10,34 +10,34 @@ class TaskSystem:
         self.dependencies = dependencies
         self.completed_tasks = []
 
-    # La fonction getDependencies(taskName) retourne la liste des taches précédentes à la tache taskName en paramètre
+    # La fonction getDependencies(taskName) retourne la liste des tâches précédentes à la tâche taskName en paramètre
     def getDependencies(self, task_name):
         return self.dependencies[task_name]
     
-    # La fonction runSeq() pour une éxécution séquentielle des taches
+    # La fonction runSeq() pour une exécution séquentielle des tâches
     def runSeq(self):
         for task in self.tasks:
             self.run_task(task)
-            print("Exécution de la tache:", task.name)
+            print("Exécution de la tâche:", task.name)
 
-    # La fonction run_task() éxécute une tache définie
+    # La fonction run_task() exécute une tâche définie
     def run_task(self, task):
         for dependence in self.dependencies[task.name]:
             self.run_task(self.get_task_by_name(dependence)) 
         task.run()
         
-    # Défition de la fonction get_task_by_name() qui renvoie l'objet tache en se basant sur le nomTache
+    # Définition de la fonction get_task_by_name() qui renvoie l'objet tâche en se basant sur le nomTache
     def get_task_by_name(self, task_name):
         # Find the task with the given name
         for task in self.tasks:
             if task.name == task_name:
                 return task
             
-    # run() permet l'éxécution parallèle des taches en tenant compte du parallélisme maximal des taches en utilisant un tri toptologique sur la liste des taches     
+    # run() permet l'exécution parallèle des tâches en tenant compte du parallélisme maximal des tâches en utilisant un tri topologique sur la liste des tâches     
     def run(self):
-        # Faire un tri topologique sur les taches
+        # Faire un tri topologique sur les tâches
         order = self.topological_sort()
-        # Execute each task in parallel if possible
+        # Exécute each task in parallel if possible
         for task_group in order:
             if len(task_group) == 1:
                 task_group[0].run()
@@ -56,12 +56,13 @@ class TaskSystem:
 
     # Définition de la fonction de tri topologique
     def topological_sort(self):
-        # Le tri topologique  permet ici de determiner l'ordre d'execution des taches
+        # Le tri topologique  permet ici de determiner l'ordre d'exécution des tâches
         order = []
         ready = [task for task in self.tasks if not self.dependencies[task.name]]
         while ready:
-            # Ajouter les taches pretes dans ordre
+            # Ajouter les tâches pretes dans ordre
             order.append(ready)
+            # Une nouvelle liste de taches qui sera pretes après l'exécution de la liste de taches actuelle
             # Create a new list of tasks that will be ready after executing the current set of tasks
             new_ready = []
             for task in ready:
@@ -78,35 +79,35 @@ class TaskSystem:
         return order
 
 
-    # * La fonction verifier_entrees permet de faire des analyses sur le systeme de tcahes task && contraintes
+    # * La fonction verifier_entrees permet de faire des analyses sur le système de tâches task && contraintes
     def verifier_entrees(self,tasks, dependencies):
-        # Vérifier l'unicité des noms des taches dans le systeme
+        # Vérifier l'unicité des noms des tâches dans le système
         tasks_names = [task.name for task in tasks]
         if len(set(tasks_names)) != len(tasks_names):
-            raise ValueError("Les noms des taches doivent etre uniques")
+            raise ValueError("Les noms des tâches doivent être uniques")
         else:
-            print("Les taches sont uniques")
+            print("Les tâches sont uniques")
 
-        #Vérifier si toutes les taches citées dans les contraintes sont bien existentes
+        # Vérifier si toutes les tâches citées dans les contraintes sont bien existentes
         tasks_names_dep = set(dependencies.keys()).union(set([task for dep in dependencies.values() for task in dep]))
         if not tasks_names_dep.issubset(set(tasks_names)):
-            raise ValueError("Le dictionnaire de précédence contient des nom de taches inexistentes")
+            raise ValueError("Le dictionnaire de précédence contient des nom de tâches inexistentes")
         else:
-            print("Toutes les noms des taches existent")
+            print("Toutes les noms des tâches existent")
 
         # Vérification si toutes les tâches ont une précédente
         for task in tasks:
             if task.name not in dependencies and not task.precedentes:
                 raise ValueError(f"La tâche {task.name} n'a pas de précédente")
 
-        # Vérifier le déterminisme du système de taches
+        # Vérifier le déterminisme du système de tâches
         tasks_names_orphelines = set(tasks_names).difference(tasks_names_dep)
         if len(tasks_names_orphelines) > 1:
             raise ValueError("Le système de tâches est indéterminé")
         else:
-            print("Le sytème des taches est déterminé")
+            print("Le système des tâches est déterminé")
 
-    # La fonction draw() permet de tracer le graphe d'éxécution des taches
+    # La fonction draw() permet de tracer le graphe d'éxécution des tâches
     def draw(self):
         G = nx.DiGraph()
         G.add_nodes_from(self.tasks)
