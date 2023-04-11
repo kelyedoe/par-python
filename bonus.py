@@ -37,4 +37,4 @@ print(s2.tasks)
 
 s2.verifier_entrees([t1, t2, t3, t4, t5, t6, t7, t8], dependencies)
 
-s2.runSeq()
+#s2.runSeq()
