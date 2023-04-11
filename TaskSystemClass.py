@@ -1,6 +1,7 @@
 from threading import Thread
 import networkx as nx
 import matplotlib.pyplot as plt
+import time
 
 # Définition de la class TaskSystem()
 class TaskSystem:
@@ -52,7 +53,10 @@ class TaskSystem:
                     thread.join()
             # Mark each task in the group as completed
             for task in task_group:
-                self.completed_tasks.append(task)
+                #if all(dep in self.completed_tasks for dep  in self.dependencies):
+                    task.run()
+                    self.completed_tasks.append(task)
+                    print("tache éxécutée en paralléle:", task.name)
 
     # Définition de la fonction de tri topologique
     def topological_sort(self):
@@ -60,9 +64,9 @@ class TaskSystem:
         order = []
         ready = [task for task in self.tasks if not self.dependencies[task.name]]
         while ready:
-            # Ajouter les tâches pretes dans ordre
+            # Ajouter les tâches prêtes dans ordre
             order.append(ready)
-            # Une nouvelle liste de taches qui sera pretes après l'exécution de la liste de taches actuelle
+            # Une nouvelle liste de tâches qui sera prêtes après l'exécution de la liste de tâches actuelle
             # Create a new list of tasks that will be ready after executing the current set of tasks
             new_ready = []
             for task in ready:
@@ -107,7 +111,7 @@ class TaskSystem:
         else:
             print("Le système des tâches est déterminé")
 
-    # La fonction draw() permet de tracer le graphe d'éxécution des tâches
+    # La fonction draw() permet de tracer le graphe d'exécution des tâches
     def draw(self):
         G = nx.DiGraph()
         G.add_nodes_from(self.tasks)
@@ -121,7 +125,7 @@ class TaskSystem:
         nx.draw(G, pos, with_labels=True, font_weight='bold')
         plt.show()
 
-    # Une fonction detRun() pour le determinisme
+    # Une fonction detRun() pour le déterminisme
     def detRun(self):
         ready = set(self.tasks)
         running = set()
@@ -144,7 +148,7 @@ class TaskSystem:
                 for task in running:
                     task.run()
                     
-        # Randomized test of determinism
+        # Test randomisé de déterminisme
         result1 = {}
         for task in self.tasks:
             result1[task.name] = task.result
@@ -153,10 +157,38 @@ class TaskSystem:
             task.reset()
             result2[task.name] = task.runRnd()
         if result1 != result2:
-            print("The system is not deterministic")
+            print("Le système de taches n'est pas déterminé")
+        else:
+            print("le système des taches est déterminé")
 
     # Test de randomisation déterminé
-    def detTestRnd(self, n=10):
+    def detTestRnd(self, n):
         for i in range(n):
             self.detRun()
-    
+
+    def parCost(self, num_exec = 5):
+        duree_total_sequentielle = 0
+        duree_total_parallele = 0
+
+        for i in range(num_exec):
+            # Faire une exécution séquentielle sur le système de tâches
+            debut_exec_sequentielle = time.time()
+            self.runSeq()
+            fin_exec_sequentielle = time.time()
+            temps_sequentielle = fin_exec_sequentielle - debut_exec_sequentielle
+            duree_total_sequentielle += temps_sequentielle
+
+            # Faire une exécution parallèle sur le système de tâches
+            debut_exec_parallele = time.time()
+            self.run()
+            fin_exec_parallele = time.time()
+            temps_parallele = fin_exec_parallele - debut_exec_parallele
+            duree_total_parallele += temps_parallele
+
+        # Calcul du temps moyen des exécutions
+        temps_moyen_seq = duree_total_sequentielle / num_exec
+        temps_moyen_par = duree_total_parallele / num_exec
+
+        print(f"Temps d'exécution moyen en séquentiel : {temps_moyen_seq: .5f} secondes")
+        print(f"Temps d'exécution moyen en parallèle : {temps_moyen_par: .5f} secondes")
+        print(f"La différence de temps d'exécution est de : {temps_moyen_seq - temps_moyen_par: .5f} secondes")

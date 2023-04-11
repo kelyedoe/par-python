@@ -37,18 +37,20 @@ s2 = TaskSystem([t1, t2, t3, t4, t5, t6, t7, t8], dependenciesGraphe2)
 
 s3 = TaskSystem([t1, t2, t3, t4, t5, t6, t7, t8], dependenciesGraphe4)
 
-print(s2.tasks)
+#print(s2.tasks)
 
-print(s3.tasks)
+#print(s3.tasks)
 
-<<<<<<< HEAD
 #s2.runSeq()
-=======
-s2.verifier_entrees([t1, t2, t3, t4, t5, t6, t7, t8], dependenciesGraphe2)
+#s2.verifier_entrees([t1, t2, t3, t4, t5, t6, t7, t8], dependenciesGraphe2)
 
-s3.verifier_entrees([t1, t2, t3, t4, t5, t6, t7, t8], dependenciesGraphe4)
+#s3.verifier_entrees([t1, t2, t3, t4, t5, t6, t7, t8], dependenciesGraphe4)
 
-s2.runSeq()
+#s2.runSeq()
 
-s3.runSeq()
->>>>>>> f585fda6869f199f0162e7b1d6e44f8e7b82ad0a
+#s3.runSeq()
+
+dep = s3.getDependencies("T6")
+print(dep)
+
+s3.draw()

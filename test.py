@@ -48,25 +48,25 @@ print(Z) """
 # * La liste de dépendance entre les tâches
 dependencies = {"T1": [], "T2": ["T1"], "somme": ["T1", "T2"]}
 s1 = TaskSystem([t1, t2, tSomme], dependencies)
-print(s1.tasks)
+#print(s1.tasks)
 
-# * Cette méthode permet de vérifier les contraintes sur le système des taches
+# * Cette méthode permet de vérifier les contraintes sur le système des tâches
 #s1.verifier_entrees([t1, t2, tSomme], dependencies)
 
 # * Retourner la liste des dépendances en prenant nomTache en paramètre
 #print(s1.getDependencies("somme"))
 
-# * Exécution de la fonctionn runSeq() pour l'éxécution séquentielle des taches
+# * Exécution de la fonctionn runSeq() pour l'exécution séquentielle des tâches
 #s1.runSeq()
 
-#print(s1.run())
+# * Exécution de la fonctionn run() pour l'exécution parallèle des tâches
+# s1.run()
 
 # * Cette méthode permet de générer le graphe du système de parallélisme maximal
 # s1.draw()
 
-s1.detTestRnd()
+# * Test  randomisé de déterminisme  (Valide)
+#s1.detTestRnd(2)
 
-
-
-
-
+# * Coût du parallélisme
+s1.parCost()

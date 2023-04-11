@@ -3,11 +3,11 @@ class Task:
     name =""
     reads = []
     writes = []
-    run = None
+    #run = None
     is_finished = False
+    
+    def run(self):
+        pass
 
     def isFinished(self):
         return self.is_finished
-
-
-    
