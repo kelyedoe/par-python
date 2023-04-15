@@ -1,8 +1,17 @@
+import multiprocessing
+if __name__ == '__main__':
+    multiprocessing.freeze_support()
+
+from multiprocessing import Pool
 from threading import Thread
 import networkx as nx
 import matplotlib.pyplot as plt
 import time
+import concurrent.futures
+import threading
 
+
+    
 # Définition de la class TaskSystem()
 class TaskSystem:
     # Constructeur de la class
@@ -10,6 +19,7 @@ class TaskSystem:
         self.tasks = tasks
         self.dependencies = dependencies
         self.completed_tasks = []
+        self.taches_executees = []
 
     # La fonction getDependencies(taskName) retourne la liste des tâches précédentes à la tâche taskName en paramètre
     def getDependencies(self, task_name):
@@ -17,9 +27,8 @@ class TaskSystem:
     
     # La fonction runSeq() pour une exécution séquentielle des tâches
     def runSeq(self):
-        for task in self.tasks:
-            self.run_task(task)
-            print("Exécution de la tâche:", task.name)
+        for task in self.topological_sort():
+            task.run()
 
     # La fonction run_task() exécute une tâche définie
     def run_task(self, task):
@@ -33,54 +42,28 @@ class TaskSystem:
         for task in self.tasks:
             if task.name == task_name:
                 return task
-            
+     
     # run() permet l'exécution parallèle des tâches en tenant compte du parallélisme maximal des tâches en utilisant un tri topologique sur la liste des tâches     
     def run(self):
-        # Faire un tri topologique sur les tâches
-        order = self.topological_sort()
-        # Exécute each task in parallel if possible
-        for task_group in order:
-            if len(task_group) == 1:
-                task_group[0].run()
-            else:
-                # Create a separate thread for each task in the group
-                threads = [Thread(target=task.run) for task in task_group]
-                # Start all threads simultaneously
-                for thread in threads:
-                    thread.start()
-                # Wait for all threads to finish before continuing
-                for thread in threads:
-                    thread.join()
-            # Mark each task in the group as completed
-            for task in task_group:
-                #if all(dep in self.completed_tasks for dep  in self.dependencies):
-                    task.run()
-                    self.completed_tasks.append(task)
-                    print("tache éxécutée en paralléle:", task.name)
+        finished = set()
+        while len(finished) < len(self.tasks):
+            for task in self.topological_sort():
+                if task not in finished:
+                    if all(dep in finished for dep in self.dependencies[task.name]):
+                        task.run()
+                        finished.add(task)            
 
     # Définition de la fonction de tri topologique
     def topological_sort(self):
-        # Le tri topologique  permet ici de determiner l'ordre d'exécution des tâches
-        order = []
         ready = [task for task in self.tasks if not self.dependencies[task.name]]
         while ready:
-            # Ajouter les tâches prêtes dans ordre
-            order.append(ready)
-            # Une nouvelle liste de tâches qui sera prêtes après l'exécution de la liste de tâches actuelle
-            # Create a new list of tasks that will be ready after executing the current set of tasks
-            new_ready = []
-            for task in ready:
-                # Mark the task as completed
-                self.completed_tasks.append(task)
-                # Add any tasks that are now ready to the new_ready list
-                for dependent_task_name in self.dependencies[task.name]:
-                    dependent_task = self.get_task_by_name(dependent_task_name)
-                    if dependent_task not in new_ready and dependent_task not in self.completed_tasks:
-                        dependencies_satisfied = all([dep_task in self.completed_tasks for dep_task in self.dependencies[dependent_task_name]])
-                        if dependencies_satisfied:
-                            new_ready.append(dependent_task)
-            ready = new_ready
-        return order
+            task = ready.pop(0)
+            yield task
+            for t in self.tasks:
+                if task.name in self.dependencies[t.name]:
+                    self.dependencies[t.name].remove(task.name)
+                    if not self.dependencies[t.name]:
+                        ready.append(t)
 
 
     # * La fonction verifier_entrees permet de faire des analyses sur le système de tâches task && contraintes
@@ -158,8 +141,8 @@ class TaskSystem:
             result2[task.name] = task.runRnd()
         if result1 != result2:
             print("Le système de taches n'est pas déterminé")
-        else:
-            print("le système des taches est déterminé")
+        #else:
+            #print("le système des taches est déterminé")
 
     # Test de randomisation déterminé
     def detTestRnd(self, n):
@@ -180,7 +163,7 @@ class TaskSystem:
 
             # Faire une exécution parallèle sur le système de tâches
             debut_exec_parallele = time.time()
-            self.run()
+            self.run_par()
             fin_exec_parallele = time.time()
             temps_parallele = fin_exec_parallele - debut_exec_parallele
             duree_total_parallele += temps_parallele
@@ -192,3 +175,51 @@ class TaskSystem:
         print(f"Temps d'exécution moyen en séquentiel : {temps_moyen_seq: .5f} secondes")
         print(f"Temps d'exécution moyen en parallèle : {temps_moyen_par: .5f} secondes")
         print(f"La différence de temps d'exécution est de : {temps_moyen_seq - temps_moyen_par: .5f} secondes")
+  
+    # Fonction pour exécuter une tâche
+    def executer_tache(tache):
+        print(f"Exécution de la tâche {tache}")
+            
+    # Fonction pour exécuter un groupe de tâches en parallèle
+    def executer_groupe_taches(self,groupe):
+        with Pool() as pool:
+            pool.map(self.executer_tache, groupe)
+
+
+    def run_par(self):
+        finished = set()
+        running = {}
+        executed = set()
+        with concurrent.futures.ThreadPoolExecutor(max_workers=len(self.tasks)) as executor:
+            while len(finished) < len(self.tasks):
+                ready = [task for task in self.tasks if not set(self.dependencies[task.name]) - finished]
+                for task in ready:
+                    if task.name not in executed:
+                        if task not in running.values():
+                            running[task.name] = task
+                            executor.submit(task.run)
+                for name, task in running.copy().items():
+                    if task.isFinished():
+                        finished.add(task)
+                        executed.add(task.name)
+                        del running[name]
+                        for t in self.tasks:
+                            if task.name in self.dependencies[t.name]:
+                                self.dependencies[t.name].remove(task.name)
+
+
+
+    def topological_sorty(self):
+        ready = [task for task in self.tasks if not self.dependencies[task.name]]
+        while ready:
+            task = ready.pop(0)
+            yield task
+            for t in self.tasks:
+                if task.name in self.dependencies[t.name]:
+                    self.dependencies[t.name].remove(task.name)
+                    if not self.dependencies[t.name]:
+                        ready.append(t)
+        print(ready.count())
+             
+
+        
