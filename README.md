@@ -39,7 +39,7 @@ précédence.
 
 **🔄La méthode runSeq()**: permet de faire une exécution séquentielle des tâches à partir d'une tâche définie.
 
-**🔄La méthode run()**: permet l'exécution parallèle des tâches en tenant compte du parallélisme maximal des tâches. Elle utilise **la méthode topological_sort()** pour gérer l'ordonancement des tâches.
+**🔄La méthode run_par()**: permet l'exécution parallèle des tâches en tenant compte du parallélisme maximal des tâches. Elle utilise **la méthode topological_sort()** pour gérer l'ordonancement des tâches.
 
 **🔄La méthode verifier_entrees(self,tasks, dependencies)**: Elle prend en paramètre la liste des tâches et les contraintes de précédence sur le système de tâches. 
 Cette méthode sera utilisée pour vérifier:
@@ -55,15 +55,15 @@ Cette méthode permet de tracer le graphe d'éxécution des tâches. Nous utilis
 # ⏫ Exemple d'exécution du projet
 L'exécution et les tests de la librairie se font dans le fichier **test.py**.
 
-⚡1. **Création des tâches t1, t2, t3**:
- ![Projet Système](/images/tasks.png)
+⚡1. **Création de 5 tâches t1, t2, t3, t4, t5**:
+ ![Projet Système](/images/img1.png)
 
 
 ⚡2. **Créer un système de tâches**:
- ![système des tâches](/images/syst%C3%A8me%20des%20taches.png)
+ ![système des tâches](/images/img2.png)
 
 ⚡3. **Vérification des contraintes sur le système des tâches**
- ![Projet Système](/images/verification.png)
+ ![Projet Système](/images/img3.png)
 > 😄Output
 > - Les tâches sont uniques
 > - Tous les noms des tâches existent
@@ -71,50 +71,90 @@ L'exécution et les tests de la librairie se font dans le fichier **test.py**.
 >
 
 ⚡4.  **Application de la fonction getDependencies()**:
-![Projet Système](/images/image3.png)
+![Projet Système](/images/img4.png)
+
+> 😄Output
+> -  ['T2', 'T3']
+>
 
 ⚡5. **Exécution de runSeq()**:
 ![Projet Système](/images/image4.png)
 > 😄Output:
-> - Exécution de la tâche: T1
-> - Exécution de la tâche: T2
-> - Exécution de la tâche: somme
+>
+> - Finished task T1
+> - Starting task T2
+> - Finished task T2
+> - Starting task T3
+> - Finished task T3
+>Starting task T4
+> - Finished task T4
+> - Starting task T5
+> - Finished task T5
 
-⚡6. **Exécution de la méthode run()**
-![Projet Système](/images/run.png)
+⚡6. **Exécution de la méthode run_par()**
+![Projet Système](/images/img5.png)
 
 > 😄 Output:
 >
->tâche exécutée en paralléle: T1
+> - Starting task T1
+> - Finished task T1
+> - Starting task T2
+> - Finished task T2
+> - Starting task T3
+> - Finished task T3
+> - Starting task T4
+> - Finished task T4
+> - Starting task T5
+> - Finished task T5
+>
 
-⚡7. **Exécution de la fonction de draw()**
-![Projet Système](/images/Figure_1.png)
+⚡7. **Exécution de la fonction de draw_no()**
+![Projet Système](/images/img6.png)
 
-⚡8. **Test Randomisé de déterminisme**
+⚡8. **Exécution de la fonction de draw_no()**
+![Projet Système](/images/graphe2.png)
+
+⚡9. **Test Randomisé de déterminisme**
 ![Projet Système](/images/testRand.png)
-⚡9. **Coût du parallélisme**
+
+⚡10. **Coût du parallélisme**
 ![Projet Système](/images/parcost.png)
 
 > 😄 Output
-> 
-> * Exécution de la tâche: T1
-> * Exécution de la tâche: T2
-> * Exécution de la tâche: somme
-> * tâche exécutée en parallèle: T1
-> * Exécution de la tâche: T1
-> * Exécution de la tâche: T2
-> * Exécution de la tâche: somme
-> * tâche exécutée en parallèle: T1
-> * Exécution de la tâche: T1
-> * Exécution de la tâche: T2
-> * Exécution de la tâche: somme
-> * tâche exécutée en parallèle: T1
-> * Temps d'exécution moyen en séquentiel :  0.00040 secondes
-> * Temps d'exécution moyen en parallèle :  0.00020 secondes
-> * La différence de temps d'exécution est de :  0.00020 secondes
-> 
+>
+> - Finished task T4
+> - Starting task T5
+> - Finished task T5
+> - Starting task T1
+> - Starting task T2
+> - Starting task T3
+> - Starting task T4
+> - Starting task T5
+> - Finished task T5
+> - Finished task T3
+> - Finished task T4
+> - Starting task T3
+> - Finished task T3
+> - Starting task T4
+> - Finished task T4
+> - Starting task T5
+> - Finished task T5
+> - Starting task T1
+> - Starting task T2
+> - Starting task T3
+> - Starting task T4
+> - Starting task T5
+> - Finished task T3
+> - Finished task T5
+> - Finished task T4
+> - Finished task T1
+> - Finished task T2
+> - Temps d'exécution moyen en séquentiel :  9.04371 secondes
+> - Temps d'exécution moyen en parallèle :  9.04117 secondes
+> - La différence de temps d'exécution est de :  0.00253 secondes
+>
 
-⚡10. **Bonus**
+⚡11. **Bonus**
 
 > **NB:** Une exécution du graphe 3 du TD. Après avoir appliqué les différentes méthodes de la librairie sur les systèmes S2 et S3 créés grâce aux graphes du TD, on peut déduire que le programme a bien pris en compte les nouveaux systèmes.
 

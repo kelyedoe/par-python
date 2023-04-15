@@ -1,0 +1,26 @@
+digraph {
+	T1
+	T2
+	T3
+	T4
+	T5
+	T5
+	T5
+	T5
+	T1 -> T2
+	T1 -> T3
+	T1 -> T4
+	T2 -> T5
+	T3 -> T5
+	T2 -> T5
+	T3 -> T5
+	T2 -> T5
+	T3 -> T5
+	T2 -> T5
+	T3 -> T5
+	T1 [fillcolor=red style=filled]
+	T2 [fillcolor=green style=filled]
+	T3 [fillcolor=green style=filled]
+	T4 [fillcolor=green style=filled]
+	T5 [fillcolor=blue style=filled]
+}

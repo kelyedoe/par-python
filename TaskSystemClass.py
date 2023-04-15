@@ -6,6 +6,7 @@ from multiprocessing import Pool
 from threading import Thread
 import networkx as nx
 import matplotlib.pyplot as plt
+import graphviz
 import time
 import concurrent.futures
 import threading
@@ -94,8 +95,8 @@ class TaskSystem:
         else:
             print("Le système des tâches est déterminé")
 
-    # La fonction draw() permet de tracer le graphe d'exécution des tâches
-    def draw(self):
+    # La fonction draw_no() permet de tracer le graphe d'exécution des tâches simple
+    def draw_no(self):
         G = nx.DiGraph()
         G.add_nodes_from(self.tasks)
         
@@ -149,7 +150,7 @@ class TaskSystem:
         for i in range(n):
             self.detRun()
 
-    def parCost(self, num_exec = 5):
+    def parCost(self, num_exec = 1):
         duree_total_sequentielle = 0
         duree_total_parallele = 0
 
@@ -221,5 +222,37 @@ class TaskSystem:
                         ready.append(t)
         print(ready.count())
              
+
+    def draw(self):
+        # Create a new graph
+        dot = graphviz.Digraph()
+        
+        # Add nodes for all tasks
+        for task in self.tasks:
+            dot.node(task.name)
+        
+        # Add edges for all dependencies
+        for task in self.tasks:
+            for dep in self.dependencies[task.name]:
+                dot.edge(dep, task.name)
+        
+        # Compute levels of parallelism for each task
+        levels = {}
+        for task in self.tasks:
+            level = 0
+            for dep in self.dependencies[task.name]:
+                dep_level = levels[dep] + 1
+                if dep_level > level:
+                    level = dep_level
+            levels[task.name] = level
+        
+        # Assign colors to nodes based on their level of parallelism
+        colors = ['red', 'green', 'blue', 'yellow', 'orange', 'purple']
+        for task, level in levels.items():
+            color = colors[level % len(colors)]
+            dot.node(task, style='filled', fillcolor=color)
+        
+        # Display the graph
+        dot.render('graph')
 
         
