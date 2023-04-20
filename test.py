@@ -11,6 +11,7 @@ t5 = Task('T5', dependencies=['T4', 'T3'], duration = 1)
 
 # * La liste de dépendance entre les tâches 
 dependencies = {"T1": [], "T2": ["T1"], "T3": ["T2"],"T4": ["T2", "T3"],"T5": ["T4"]}
+dep = {"T1": [], "T2": ["T1"], "T3": ["T2"],"T4": ["T2", "T3"],"T5": ["T4"]}
 
 # * la liste des taches
 tasks = [t1, t2, t3, t4, t5]
@@ -26,7 +27,7 @@ dependances =  s1.getDependencies("T4")
 #print(dependances)
 
 # * Exécution de la fonctionn runSeq() pour l'exécution séquentielle des tâches
-#s1.runSeq()
+s1.runSeq()
 
 # * Exécution de la fonction run_par() pour l'exécution parallèle des tâches
 #s1.run_par()
@@ -35,7 +36,7 @@ dependances =  s1.getDependencies("T4")
 #s1.draw_no()
 
 # * Cette méthode permet de générer le graphe du système de parallélisme maximal
-s1.draw()
+#s1.draw()
 
 # * Test  randomisé de déterminisme  (Valide)
 #s1.detTestRnd(2)

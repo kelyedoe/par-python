@@ -46,6 +46,7 @@ class TaskSystem:
      
     # run() permet l'exécution parallèle des tâches en tenant compte du parallélisme maximal des tâches en utilisant un tri topologique sur la liste des tâches     
     def run(self):
+        # L'ensemble des taches éxécutées
         finished = set()
         while len(finished) < len(self.tasks):
             for task in self.topological_sort():
@@ -54,7 +55,7 @@ class TaskSystem:
                         task.run()
                         finished.add(task)            
 
-    # Définition de la fonction de tri topologique
+    # Définition de la fonction de tri topologique (relation de précédences entre les taches)
     def topological_sort(self):
         ready = [task for task in self.tasks if not self.dependencies[task.name]]
         while ready:
