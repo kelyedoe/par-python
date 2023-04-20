@@ -35,13 +35,13 @@ dependances =  s1.getDependencies("T4")
 #s1.draw_no()
 
 # * Cette méthode permet de générer le graphe du système de parallélisme maximal
-#s1.draw()
+s1.draw()
 
 # * Test  randomisé de déterminisme  (Valide)
 #s1.detTestRnd(2)
 
 # * Coût du parallélisme
-s1.parCost()
+#s1.parCost()
 
 
 

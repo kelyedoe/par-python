@@ -2,6 +2,12 @@
 
  
 # 🔭 Projet: Librairie python de parallélisation maximale des tâches.
+
+![lib size](https://img.shields.io/github/repo-size/kelyedoe/par-python)
+![files](https://img.shields.io/github/directory-file-count/kelyedoe/par-python)
+![files](https://img.shields.io/github/contributors/kelyedoe/par-python)
+![files](https://img.shields.io/github/repo-size/matplotlib/matplotlib?color=green&label=dep-matplotlib)
+![files](https://img.shields.io/chocolatey/dt/graphviz?color=orange&label=graphviz)
 ## ⏫ Description du projet:
 Développer une libraire en Python pour automatiser la parallélisation maximale de systèmes de tâches. L’utilisateur doit pouvoir spécifier des tâches quelconques, interagissant
 à travers un ensemble arbitraire de variables, et pouvoir :
