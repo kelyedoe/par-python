@@ -20,7 +20,7 @@ précédence.
 # ⏫ Fichiers (files)
 |                                    | File | Description |
 | ---------------------------------- | ---- | ----------- |
-| 01 | **Task.py** | La class Task permet la création de tâches.        |
+| 01 | **TaskClass.py** | La class Task permet la création de tâches.        |
 | 02 | **TaskSystemClass.py**| Le fichier TaskSystemClass.py regroupe l'ensemble des méthodes qui vont être exécutés pour réaliser le parallélisme maximal.        |
 | 03 | **Test.py** | Le fichier test.py permet de tester les différentes fonctionnalitées que propose la librairie de parallélisation maximale.|
 | 04 |  **Bonus.py** | contient le code python pour réaliser la partie bonus du projet.|
@@ -28,6 +28,8 @@ précédence.
 # ⏫ Installation et Exécution du projet
 
 ## Dépendances
+🔄 La librairie GraphViz:  [https://graphviz.org/](Lien)
+
 🔄 La librairie NetworkX
 > $ pip install networkx
 

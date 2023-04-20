@@ -27,7 +27,7 @@ dependances =  s1.getDependencies("T4")
 #print(dependances)
 
 # * Exécution de la fonctionn runSeq() pour l'exécution séquentielle des tâches
-s1.runSeq()
+#s1.runSeq()
 
 # * Exécution de la fonction run_par() pour l'exécution parallèle des tâches
 #s1.run_par()
@@ -42,7 +42,7 @@ s1.runSeq()
 #s1.detTestRnd(2)
 
 # * Coût du parallélisme
-#s1.parCost()
+s1.parCost()
 
 
 
