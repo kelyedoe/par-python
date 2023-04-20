@@ -17,15 +17,13 @@ de précédence.
 3. exécuter le système de tâches en parallèle, tout en respectant les contraintes de
 précédence.
 
-# ⏫ Description
-
-* **Task.py**: La class Task permet la création de tâches.
-
-* **TaskSystemClass.py** : Le fichier TaskSystemClass.py regroupe l'ensemble des méthodes qui vont être exécutés pour réaliser le parallélisme maximal.
-
-* **Test.py** : Le fichier test.py permet de tester les différentes fonctionnalitées que propose la librairie de parallélisation maximale.
-
-* **Bonus.py** : contient le code python pour réaliser la partie bonus du projet.
+# ⏫ Fichiers (files)
+|                                    | File | Description |
+| ---------------------------------- | ---- | ----------- |
+| 01 | **Task.py** | La class Task permet la création de tâches.        |
+| 02 | **TaskSystemClass.py**| Le fichier TaskSystemClass.py regroupe l'ensemble des méthodes qui vont être exécutés pour réaliser le parallélisme maximal.        |
+| 03 | **Test.py** | Le fichier test.py permet de tester les différentes fonctionnalitées que propose la librairie de parallélisation maximale.|
+| 04 |  **Bonus.py** | contient le code python pour réaliser la partie bonus du projet.|
 
 # ⏫ Installation et Exécution du projet
 
