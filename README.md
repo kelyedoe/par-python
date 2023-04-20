@@ -37,25 +37,18 @@ précédence.
 >python -m pip install -U matplotlib
 >
 
-## Exécution du projet
+## 🔄 Exécution du projet
 
-**🔄La méthode getDependencies()**: permet de retourner la liste des tâches précédentes.
+|                           Méthodes         | Description | Paramètres |
+| ---------------------------------- | ---- | ----------- |
+| **getDependencies('TaskName')** | Nom d'une tâche | Elle permet de retourner la liste des tâches précédentes à la tâche en paramètre.     |
+| **runSeq()**| None| Elle permet de faire une exécution séquentielle des tâches à partir d'une tâche définie. Elle utilise **la méthode topological_sort()** pour gérer l'ordonancement des tâches.     |
+| **run_par()** | None | permet l'exécution parallèle des tâches en tenant compte du parallélisme maximal des tâches. |
+| **verifier_entrees()** |  **Bonus.py** | Elle prend en paramètre la liste des tâches et les contraintes de précédence sur le système de tâches. Cette méthode sera utilisée pour vérifier:l'unicité des noms des tâches dans le système,vérifier si toutes les tâches citées dans les contraintes sont bien existentes,vérifier si toutes les tâches ont une tâche précédente,Vérifier si le système des tâches est déterminé c-à-d: pour toute tâche t1, t2 du système il n'y a pas d'interférence.|
+| **draw()** |  **None** | Cette méthode permet de tracer le graphe d'éxécution des tâches. Nous utilisons la librairie **graphviz** et aussi la librairie **matplotlib** qui fourni un certain nombre de fonctions pour faire les représentations graphiques de notre système de tâches.|
+| **detTestRnd()** |  **None** | Cette méthode permet de montrer si le système est déterminimé.|
 
-**🔄La méthode runSeq()**: permet de faire une exécution séquentielle des tâches à partir d'une tâche définie.
 
-**🔄La méthode run_par()**: permet l'exécution parallèle des tâches en tenant compte du parallélisme maximal des tâches. Elle utilise **la méthode topological_sort()** pour gérer l'ordonancement des tâches.
-
-**🔄La méthode verifier_entrees(self,tasks, dependencies)**: Elle prend en paramètre la liste des tâches et les contraintes de précédence sur le système de tâches. 
-Cette méthode sera utilisée pour vérifier:
-> - l'unicité des noms des tâches dans le système
-> - vérifier si toutes les tâches citées dans les contraintes sont bien existentes
-> - vérifier si toutes les tâches ont une tâche précédente
-> - Vérifier si le système des tâches est déterminé c-à-d: pour toute tâche t1, t2 du système il n'y a pas d'interférence.
-
-**🔄La méthode draw()**:
-Cette méthode permet de tracer le graphe d'éxécution des tâches. Nous utilisons la librairie **networkx** et aussi la librairie **matplotlib** qui fourni un certain nombre de fonctions pour faire les représentations graphiques de notre système de tâches.
-
-**🔄La méthode detTestRnd()**: Cette méthode permet de montrer si le système est déterminimé.
 # ⏫ Exemple d'exécution du projet
 L'exécution et les tests de la librairie se font dans le fichier **test.py**.
 
